@@ -133,3 +133,46 @@ MEDIA_ROOT = BASE_DIR / "mediaFILES"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+import logging.config
+from django.utils.log import DEFAULT_LOGGING
+from pathlib import Path
+
+# Define your variables
+LOG_LEVEL = logging.INFO  # Example log level
+BASE_DIR = Path(__file__).resolve().parent  # Example base directory
+
+logging.config.dictConfig({
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose"
+        },
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "logs/real_estate.log",
+            "formatter": "verbose"
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler"
+        }
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file", "mail_admins"],
+            "level": "INFO",  # Example log level
+            "propagate": True
+        }
+    }
+})
