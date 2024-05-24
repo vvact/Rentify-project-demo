@@ -19,7 +19,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS=['localhost','127.0.0.1','[::1]',]
 
 
 # Application definition
@@ -38,9 +38,6 @@ SITE_ID = 1
 THIRD_PARTY_APPS= [
     'rest_framework',
     'django_filters',
-    'corsheaders',
-    'drf_yasg',
-    'drf_spectacular',
     'django_countries',
     'phonenumber_field',
 ]
