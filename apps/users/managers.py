@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.utils.translation import gettext_lazy as _
 
-class UserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
     def email_validator(self, email):
         try:
             validate_email(email)
