@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Africa/Nairobi"
 
 USE_I18N = True
 
@@ -126,55 +126,20 @@ USE_TZ = True
 STATIC_URL = "staticfiles/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIR = []
-MEDIA_URL = "/mediaFILES/"
-MEDIA_ROOT = BASE_DIR / "mediaFILES"
+MEDIA_URL = "/mediafiles/"
+MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTT_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'
 
-
+import logging
 import logging.config
-from django.utils.log import DEFAULT_LOGGING
-from pathlib import Path
 
-# Define your variables
-LOG_LEVEL = logging.INFO  # Example log level
-BASE_DIR = Path(__file__).resolve().parent  # Example base directory
+from django.utils import DEFAULT_LOGGING
 
-logging.config.dictConfig({
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
-        }
-    },
-    "handlers": {
-        "console": {
-            "level": "INFO",
-            "class": "logging.StreamHandler",
-            "formatter": "verbose"
-        },
-        "file": {
-            "level": "INFO",
-            "class": "logging.FileHandler",
-            "filename": "logs/real_estate.log",
-            "formatter": "verbose"
-        },
-        "mail_admins": {
-            "level": "ERROR",
-            "class": "django.utils.log.AdminEmailHandler"
-        }
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["console", "file", "mail_admins"],
-            "level": "INFO",  # Example log level
-            "propagate": True
-        }
-    }
-})
+logger = logging.getLogger(__name__)
+
