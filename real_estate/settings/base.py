@@ -136,10 +136,63 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'users.User'
 
+
+
+
 import logging
 import logging.config
 
-from django.utils import DEFAULT_LOGGING
-
+from django.utils.log import DEFAULT_LOGGING
 logger = logging.getLogger(__name__)
 
+
+LOG_LEVEL = "INFO"
+
+import logging.config
+from django.utils.log import DEFAULT_LOGGING
+
+logging.config.dictConfig(
+    {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "console": {
+                "format": "%(asctime)s %(name)s %(levelname)s %(message)s",
+            },
+            "file": {
+                "format": "%(asctime)s %(name)s %(levelname)s %(message)s",
+            },
+            "django.server": DEFAULT_LOGGING["formatters"]["django.server"],
+        },
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "level": "DEBUG",
+                "formatter": "console",
+            },
+            "file": {
+                "class": "logging.FileHandler",
+                "level": "INFO",
+                "formatter": "file",
+                "filename": "logs/real_estate.log",
+            },
+        },
+        "loggers": {
+            "": {  # root logger
+                "handlers": ["console", "file"],
+                "level": "INFO",
+                "propagate": False,
+            },
+            "apps": {  # apps logger
+                "handlers": ["console", "file"],
+                "level": "INFO",
+                "propagate": False,
+            },  # <-- Add comma here
+            "django.server": {
+                "handlers": ["console"],
+                "level": "INFO",
+                "propagate": False,
+            },
+        }
+    }
+)
