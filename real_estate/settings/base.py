@@ -149,7 +149,7 @@ REST_FRAMEWORK = {
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPE":(
+    "AUTH_HEADER_TYPES":(
         "Bearer",
         "JWT",
     ),
