@@ -22,7 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields  = ['id', 'email', 'username', 'first_name', 'last_name', 'full_name', 'gende', 'phone_number',  'city', 'country', 'profile_photo', 'top_seller']
+        fields  = ['id',  'username', 'email', 'first_name', 'last_name', 'full_name', 'gender', 'phone_number',  'city', 'country', 'profile_photo', 'top_seller' 'license',]
+
 
     
     def get_first_name(self, obj):
