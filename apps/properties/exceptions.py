@@ -1,3 +1,6 @@
-from django.test import TestCase
+from rest_framework.exceptions import APIException
 
-# Create your tests here.
+
+class PropertyNotFound(APIException):
+    status_code = 404
+    default_detail = 'Property not found.'
