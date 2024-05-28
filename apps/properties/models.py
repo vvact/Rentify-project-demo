@@ -83,21 +83,40 @@ class Property(TimeStampedUUIDModel):
         default=1,
         help_text=_("Total Floors"),
     )
-    bedroom= models.ImageField(
+    bedroom=models.IntegerField(
         verbose_name=_("Bedroom"),
-        upload_to="property/bedroom",
+        validators=[MinValueValidator(0)],
         default=1,
-        blank=True,
-        null=True,
+        help_text=_("Bedroom"),
     )
-    bathroom= models.ImageField(
+    bathroom=models.IntegerField(
         verbose_name=_("Bathroom"),
-        upload_to="property/bathroom",
-        blank=True,
-        max_length=4,
-        default = 1.0,
+        validators=[MinValueValidator(0)],
+        default=1,
+        help_text=_("Bathroom"),
     )
-
+    garage=models.IntegerField(
+        verbose_name=_("Garage"),
+        validators=[MinValueValidator(0)],
+        default=1,
+        help_text=_("Garage"),
+    )
+    furnished=models.BooleanField(
+        verbose_name=_("Furnished"),
+        default=False,
+        help_text=_("Furnished"),
+    )
+    air_conditioning=models.BooleanField(
+        verbose_name=_("Air Conditioning"),
+        default=False,
+        help_text=_("Air Conditioning"),
+    )
+    swimming_pool=models.BooleanField(
+        verbose_name=_("Swimming Pool"),
+        default=False,
+        help_text=_("Swimming Pool"),
+    )
+    
     advert_type = models.CharField(
         verbose_name=_("Advert Type"),
         max_length=10,
@@ -176,7 +195,7 @@ class Property(TimeStampedUUIDModel):
     
     def save(self, *args, **kwargs):
         self.title = str.title(self.title)
-        self.description = str.title(self.description)
+        self.description = str.capitalize(self.description)
         self.ref_code= " ".join(random.choices(
             string.ascii_uppercase + string.digits, k=10
         ))
