@@ -12,7 +12,7 @@ class Enquiry(TimeStampedUUIDModel):
         max_length=255,
         verbose_name=_("Your Name"),
     )
-    phone = PhoneNumberField(
+    phone_number = PhoneNumberField(
         verbose_name=_("Your Phone"),
     )
     email = models.EmailField(
