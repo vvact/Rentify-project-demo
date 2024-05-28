@@ -192,6 +192,33 @@ class Property(TimeStampedUUIDModel):
         tax_amount = property_price * (tax_percentage / 100,2)
         final_property_price = (property_price + tax_amount,2)
         return final_property_price
+    
+
+class PropertyViews(TimeStampedUUIDModel):
+    ip = models.CharField(
+        verbose_name=_("IP Address"),
+        max_length=260,
+        default="127.0.0.1",
+    )
+
+    property = models.ForeignKey(
+        Property,
+        related_name='property_views',
+        verbose_name=_("Property"),
+        on_delete=models.CASCADE,
+    )
+
+
+    def __str__(self):
+        return(
+            f"Total views on - {self.property.title} is - {self.property.views} view(s)"
+        )
+    
+    class Meta:
+        verbose_name = _(" Views on Property")
+        verbose_name_plural = _(" Total Property Views")
+
+
 
 
 
