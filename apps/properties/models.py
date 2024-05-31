@@ -1,6 +1,3 @@
-import random
-import string
-
 from autoslug import AutoSlugField
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -8,6 +5,8 @@ from django_countries.fields import CountryField
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from apps.common.models import TimeStampedUUIDModel
+import random
+import string
 
 User = get_user_model()
 
@@ -69,6 +68,7 @@ class Property(TimeStampedUUIDModel):
     photo4 = models.ImageField(verbose_name=_("Photo 4"), upload_to="property/photo4", default="/interior_sample.jpg", blank=True)
     published_status = models.BooleanField(verbose_name=_("Published Status"), default=False)
     views = models.IntegerField(verbose_name=_("Views"), default=0)
+    final_price = models.DecimalField(verbose_name=_("Final Price"), max_digits=12, decimal_places=2, default=0.0, help_text=_("Price including tax"))
 
     objects = models.Manager()
     published = PropertyPublishedManager()
@@ -85,15 +85,8 @@ class Property(TimeStampedUUIDModel):
             self.ref_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         self.title = self.title.title()
         self.description = self.description.capitalize()
+        self.final_price = round(self.price + (self.price * self.tax / 100), 2)
         super(Property, self).save(*args, **kwargs)
-
-    @property
-    def final_property_price(self):
-        tax_percentage = self.tax
-        property_price = self.price
-        tax_amount = property_price * (tax_percentage / 100)
-        final_property_price = property_price + tax_amount
-        return round(final_property_price, 2)
 
 class PropertyViews(TimeStampedUUIDModel):
     ip = models.CharField(verbose_name=_("IP Address"), max_length=260, default="127.0.0.1")
