@@ -22,7 +22,7 @@ class Rating(TimeStampedUUIDModel):
     verbose_name=_("Rating")
 )
 
-comment = models.TextField(verbose_name=_("Comment"))
+    comment = models.TextField(verbose_name=_("Comment"))
 
 
 class meta:
