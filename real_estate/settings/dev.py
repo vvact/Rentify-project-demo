@@ -1,6 +1,11 @@
 from .base import *
+import os
+from pathlib import Path
+from dotenv import load_dotenv
 
+load_dotenv()
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -16,9 +21,14 @@ DOMIAM = env("DOMAIN")
 SITE_NAME = "Real Estate"
 
 
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': os.getenv('DATABASE_ENGINE'),
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT'),
     }
 }

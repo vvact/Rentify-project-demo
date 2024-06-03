@@ -16,10 +16,7 @@ urlpatterns = [
     path("api/v1/auth/token/create/", TokenCreateView.as_view(), name="token_create"),
     path("api/vi/rating/", include("apps.ratings.urls")),
     path("api/v1/enquiries/",include("apps.enquiries.urls"))
-
-
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+]
 
 admin.site.site_header = "Real Estate Admin"
 admin.site.site_title = "Real Estate Admin Portal"
