@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   api:
@@ -6,14 +6,19 @@ services:
       context: .
       dockerfile: ./docker/local/django/Dockerfile
     command: /start
+    environment:
+      - vp7=your_value
     volumes:
       - .:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/mediafiles
+    expose:
+      - "8000"
     env_file:
       - .env
     depends_on:
       - db
+      - redis
     networks:
       - estate-react
 
@@ -25,23 +30,60 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     environment:
+      - MYSQL_ROOT_PASSWORD=Victor12$
       - MYSQL_DATABASE=${DATABASE_NAME}
-      - MYSQL_USER=${DATABASE_USER}
-      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      # - MYSQL_USER=${DATABASE_USER}
+      # - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+    networks:
+      - estate-react
+
+  redis:
+    image: redis:5-alpine
+    networks:
+      - estate-react
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./docker/local/django/Dockerfile
+    command: /start-celeryworker
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - estate-react
+
+  flower:
+    build:
+      context: .
+      dockerfile: ./docker/local/django/Dockerfile
+    command: celery flower
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    ports:
+      - "5556:5555"
+    depends_on:
+      - redis
+      - db
     networks:
       - estate-react
 
   nginx:
-    build:
-      context: ./docker/local/nginx
-      dockerfile: Dockerfile
     restart: always
     depends_on:
       - api
     volumes:
       - static_volume:/app/staticfiles
       - media_volume:/app/mediafiles
+    build:
+      context: ./docker/local/nginx
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     networks:
