@@ -8,6 +8,7 @@ class Enquiry(TimeStampedUUIDModel):
     """
     User model
     """
+
     name = models.CharField(
         max_length=255,
         verbose_name=_("Your Name"),
@@ -29,7 +30,7 @@ class Enquiry(TimeStampedUUIDModel):
 
     def __str__(self):
         return self.email
-    
+
     class Meta:
         verbose_name = _("Enquiry")
         verbose_name_plural = _("Enquiries")

@@ -17,21 +17,15 @@ LABEL youtube="https://www.youtube.com/c/APIImperfect"
 LABEL description="Development image for Real Estate Project"
 
 # Install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    build-essential \
-    libpq-dev \
-    gettext \
-    netcat \
-    gcc \
-    default-mysql-client \
-    pkg-config \
-    libmariadb-dev-compat \
-    libmariadb-dev \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
+RUN apt-get update \
+  && apt-get install -y build-essential \
+  && apt-get install -y libpq-dev \
+  && apt-get install -y gettext \
+  && apt-get -y install netcat gcc postgresql \
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && rm -rf /var/lib/apt/lists/*
 # Upgrade pip to the latest version
+
 RUN pip3 install --no-cache-dir --upgrade pip
 
 # Copy the requirements file and install Python dependencies

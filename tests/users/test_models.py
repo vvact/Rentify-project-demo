@@ -1,5 +1,6 @@
 import pytest
 
+
 # Test user string representation
 def test_user_str(base_user):
     """
@@ -23,7 +24,9 @@ def test_user_full_name(base_user):
     Test that user models get_full_name works
     """
     expected_full_name = f"{base_user.first_name} {base_user.last_name}"
-    assert base_user.get_full_name() == expected_full_name, "Full name should match first name and last name"
+    assert (
+        base_user.get_full_name() == expected_full_name
+    ), "Full name should match first name and last name"
 
 
 # Test that the email address is normalized for base user

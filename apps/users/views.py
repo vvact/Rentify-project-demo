@@ -1,3 +1,1 @@
-from django.shortcuts import render,HttpResponse,Response,status
-
-
+from django.shortcuts import render, HttpResponse, Response, status

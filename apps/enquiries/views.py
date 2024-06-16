@@ -1,23 +1,24 @@
 from django.core.mail import send_mail
 
-from real_estate.settings.dev import DEFAULT_FROM_EMAIL
+from real_estate.settings.development import DEFAULT_FROM_EMAIL
 from rest_framework import permissions
-from rest_framework.decorators import api_view , permission_classes
+from rest_framework.decorators import api_view, permission_classes
 
 from rest_framework.response import Response
 
 from .models import Enquiry
 
-@api_view(['POST'])
+
+@api_view(["POST"])
 @permission_classes([permissions.AllowAny])
 def send_enquiry(request):
     data = request.data
 
     try:
-        subject = data['subject']
-        name = data['name']
-        email = data['email']
-        message = data['message']
+        subject = data["subject"]
+        name = data["name"]
+        email = data["email"]
+        message = data["message"]
         from_email = data["email"]
         recipient_list = [DEFAULT_FROM_EMAIL]
 
@@ -31,11 +32,6 @@ def send_enquiry(request):
         enquiry = Enquiry(name=name, email=email, subject=subject, message=message)
         enquiry.save()
         return Response({"message": "Enquiry sent successfully"})
-    
+
     except Exception as e:
         return Response({"message": str(e)})
-
-   
-
-
-

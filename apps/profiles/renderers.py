@@ -6,10 +6,10 @@ from rest_framework.renderers import JSONRenderer
 class ProfileJSONREnderer(JSONRenderer):
     charset = "utf-8"
 
-    def render (self, data,accepted_media_types=None, renderer_contex = None):
-        errors = data.get('errors',None)
+    def render(self, data, accepted_media_types=None, renderer_contex=None):
+        errors = data.get("errors", None)
 
         if errors is not None:
             return super(ProfileJSONREnderer, self).render(data)
-        
-        return json.dumps({"":data})
+
+        return json.dumps({"": data})

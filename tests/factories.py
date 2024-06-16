@@ -6,13 +6,18 @@ from real_estate.settings.base import AUTH_USER_MODEL
 
 faker = FakerFactory.create()
 
+
 @factory.django.mute_signals(post_save)
 class UserFactory(factory.django.DjangoModelFactory):
     first_name = factory.LazyAttribute(lambda x: faker.first_name())
     last_name = factory.LazyAttribute(lambda x: faker.last_name())
     username = factory.LazyAttribute(lambda x: faker.user_name())
-    email = factory.LazyAttribute(lambda x: faker.email())  # Changed to generate random emails
-    password = factory.PostGenerationMethodCall('set_password', 'defaultpassword')  # Corrected password setup
+    email = factory.LazyAttribute(
+        lambda x: faker.email()
+    )  # Changed to generate random emails
+    password = factory.PostGenerationMethodCall(
+        "set_password", "defaultpassword"
+    )  # Corrected password setup
     is_active = True
     is_staff = False
 
@@ -23,9 +28,10 @@ class UserFactory(factory.django.DjangoModelFactory):
     def _create(cls, model_class, *args, **kwargs):
         """Override the default `_create` with our custom call."""
         manager = cls._get_manager(model_class)
-        if kwargs.get('is_superuser', False):
+        if kwargs.get("is_superuser", False):
             return manager.create_superuser(*args, **kwargs)
         return manager.create_user(*args, **kwargs)
+
 
 @factory.django.mute_signals(post_save)
 class ProfileFactory(factory.django.DjangoModelFactory):
@@ -33,8 +39,12 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     phone_number = factory.LazyAttribute(lambda x: faker.phone_number())
     about_me = factory.LazyAttribute(lambda x: faker.sentence(nb_words=5))
     license = factory.LazyAttribute(lambda x: faker.sentence(nb_words=10))
-    profile_photo = factory.LazyAttribute(lambda x: faker.file_name(extension='jpg'))  # Corrected to generate valid file names
-    gender = factory.LazyAttribute(lambda x: faker.random_element(elements=["male", "female", "other"]))
+    profile_photo = factory.LazyAttribute(
+        lambda x: faker.file_name(extension="jpg")
+    )  # Corrected to generate valid file names
+    gender = factory.LazyAttribute(
+        lambda x: faker.random_element(elements=["male", "female", "other"])
+    )
     country = factory.LazyAttribute(lambda x: faker.country_code())
     city = factory.LazyAttribute(lambda x: faker.city())
     is_buyer = False
