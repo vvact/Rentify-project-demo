@@ -1,0 +1,21 @@
+# Use the official Node.js image as a base image
+FROM node:16-alpine3.12
+
+# Metadata and labels
+LABEL version="1.8"
+LABEL description="React Frontend for the Real Estate API"
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json files
+COPY package*.json ./
+
+# Install project dependencies
+RUN npm install --silent  # Use --silent to reduce verbosity and optimize image size
+
+# Copy the rest of the application code
+COPY . .
+
+# Command to start the React application
+CMD ["npm", "run", "start"]

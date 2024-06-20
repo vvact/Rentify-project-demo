@@ -13,7 +13,7 @@ DOMAIN = env("DOMAIN")
 SITE_NAME = "Rentify Estate"
 
 
-
+    #Sqlite database setup
 # DATABASES = {
 #     'default': {
 #         'ENGINE': env('DATABASE_ENGINE'),
